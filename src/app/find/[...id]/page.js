@@ -10,7 +10,6 @@ import { TwitterShareButton } from "react-share";
 const ImageId = () => {
   const { id } = useParams();
   const [ImageId, setImageId] = useState([]);
-
   const ImagePramsID = async () => {
   
     try {
@@ -21,9 +20,9 @@ const ImageId = () => {
          userId = userdata.email;
       }
       const response = await axios.get(
-        process.env.Get_Images_OJ + `getImage/${id}?user_id=${userId}`
+        process.env.REACT_APP_GPT5_IMAGE_OJ + `getImage/${id}?user_id=${userId}`
       );
-  
+      console.log(response,"response")
 
       setImageId(response.data[0]);
     } catch (error) {
@@ -39,7 +38,7 @@ const ImageId = () => {
         let userdata = JSON.parse(email);
         let userId = userdata.email;
   
-        const response = await axios.post(process.env.Get_Images_OJ + `like`, {
+        const response = await axios.post(process.env.REACT_APP_GPT5_IMAGE_OJ + `like`, {
           userId: userId,
           image_id: id,
           date_time: new Date().toLocaleString(),
@@ -57,11 +56,11 @@ const ImageId = () => {
 
   return (
     <div
-      className=" bg-[#e2e8f0] dark:bg-light-grey"
-      style={{ height: "calc(100vh - 56px)" }}
+      className=" bg-[#e2e8f0] dark:bg-light-grey h-full"
+      // style={{ height: "calc(100vh - 56px)" }}
     >
-      <div className=" max-w-[1140px] m-auto ">
-        <div className="main_singleImage flex gap-[20px] pt-3">
+      <div className=" max-w-[1140px] m-auto bg-[#e2e8f0] dark:bg-light-grey">
+        <div className="main_singleImage flex gap-[20px] pt-[80px]">
           <div className="main_singleImage_Image_box">
             <img className="rounded" src={ImageId.link_to_image} alt="" />
           </div>
@@ -70,11 +69,11 @@ const ImageId = () => {
               <p>
                 <b>OpenJourney</b>
               </p>
-              <p className={` inline-block text-end shadow shadow-black my-2 p-2 rounded ${ImageId.is_user_liked > 0 ? "imageLiked" : ""}`} onClick={() => LikeImage(ImageId.id)}>
+              <div className={` inline-block text-end shadow shadow-black my-2 p-2 rounded ${ImageId?.is_user_liked > 0 ? "imageLiked" : ""}`} onClick={() => LikeImage(ImageId.id)}>
                 {" "}
                 <i className="fa-solid fa-heart " />
                 {ImageId.like_count}
-              </p>
+              </div>
             </div>
 
             <div className=" shadow shadow-black rounded w-[300px] h-[300px] p-3 flex flex-col justify-between items-center">

@@ -23,10 +23,11 @@ const handleChange=(e)=>{
     const sortedArray = [...getImg].sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
-        setSortToggle(true)
         return value === "newest" ? dateA - dateB : dateB - dateA;
 
     });
+    setSortToggle(true)
+
     console.log(sortedArray,"sortedArrayDate")
     setSortData(sortedArray);
 
@@ -35,9 +36,10 @@ const handleChange=(e)=>{
     setSortLikes(value)
 
     const sortedArray = [...getImg].sort((a, b) => {
-        setSortToggle(true)
         return value === "least" ? a.Likes - b.Likes :b.Likes - a.Likes;;
     });
+    setSortToggle(true)
+
     console.log(sortedArray,"sortedArrayLikes")
     setSortData(sortedArray);
   }else{
@@ -99,36 +101,38 @@ const handleChange=(e)=>{
   // };
   return (
     <>
-      <div className="shortbtn w-[300px]">
+      <div className="shortbtn w-[auto]">
 
-        <div className=" sidebar sm:w-[250px] sm:gap-[6px] fixed gap-[1rem]">
+        <div className=" sidebar sm:w-[auto] sm:gap-[6px] fixed gap-[1rem]">
           <h4>
-            <strong className="text-grey dark:text-white">Sort By:</strong>{" "}
+            <strong className="text-white dark:text-grey">Sort By:</strong>
           </h4>
-          <div className="relative  ">
-            <select closeMenuOnSelect={false} className="w-[133px] h-[38px] rounded" value={sortLikes} onChange={(e)=>handleChange(e)}>
+          
+          <div className="relative">
+            <select suppressHydrationWarning={true} className="w-[133px] h-[38px] rounded" value={sortLikes} onChange={(e)=>handleChange(e)}>
         
               <option>
                 Likes
               </option>
               <option value="least">
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   style={{ fontSize: "15px", marginTop: "2px" }}
                   icon={faPlus}
-                />
-                {""} Least
+                /> */}
+               Least
               </option>
               <option value="most">
 
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   style={{ fontSize: "15px", marginTop: "2px" }}
                   icon={faPlus}
-                />
+                /> */}
                 {""} Most
 
               </option>
             </select>
-          </div>
+            
+          </div> 
           {/* // date sorting */}
           <div className="relative">
           <select className="w-[133px] h-[38px] rounded" value={sortDate} onChange={handleChange}>
@@ -136,23 +140,24 @@ const handleChange=(e)=>{
                 Date
               </option>
               <option value="newest">
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   style={{ fontSize: "15px", marginTop: "2px" }}
                   icon={faPlus}
-                />
+                /> */}
                 {""} Newest
               </option>
               <option value="oldest" >
 
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   style={{ fontSize: "15px", marginTop: "2px" }}
                   icon={faPlus}
-                />
+                /> */}
                 {""} Oldest
 
               </option>
             </select>
           </div>
+          
           {/*Search Exclude Include words*/}
 
           <div className="sortbtnexclude-include sm:block  hidden ">

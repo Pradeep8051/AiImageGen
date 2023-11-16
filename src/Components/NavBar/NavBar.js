@@ -53,11 +53,12 @@ let pathname=usePathname(); // get pathname
 
 
   const LoginBtn = () => {
-     if(!userEmail){
+     if(!getLocalStroage()){
       router.push('/login')
      }else{
       removeLocalStroage()
-      router.push('/login')
+      router.push('/login') 
+      // router.push('/')
      }
   }
 
@@ -98,7 +99,7 @@ let pathname=usePathname(); // get pathname
 
           <div className="pr-[30px] flex gap-[2rem]">
             <Link href='/subscripation' className=" subscribe_btn hover:bg-[#417cfb] transition-[0.25s] ">Subscribe</Link>
-            <Link href='/login' className="login_btn hover:bg-[#417cfb] transition-[0.25s] " onClick={LoginBtn} >{!getLocalStroage()?"Login":"Log Out"}</Link>
+            <Link href='/login' className="login_btn hover:bg-[#417cfb] transition-[0.25s] " suppressHydrationWarning={true} onClick={LoginBtn} >{!getLocalStroage()?"Login":"LogOut"}</Link>
           </div>
         </div>
 

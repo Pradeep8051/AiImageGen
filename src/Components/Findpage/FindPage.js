@@ -40,7 +40,7 @@ const findpage = () => {
     try {
       // const response = await axios.get(process.env.Get_Images_OJ + "getImages");
       const response = await axios.get(
-        `${BaseUrl}pegination?page=${paginationNum}&limit=${2}`
+        `${BaseUrl}pegination?page=${paginationNum}&limit=${2}&userId=${getLocalStroage()}`
       );
       setTotalData(response?.data?.totalLength);
       setGetImg(response?.data?.currentPageData);
@@ -65,18 +65,24 @@ const findpage = () => {
 
   // like Image API
   const LikeImage = async (id) => {
-    const response = await axios.put(BaseUrl + `likeImages/` + `${id}`, {
-      Like_user: getLocalStroage(),
-      createdAt: Date.now(),
-    });
-    console.log("liker", response.data)
+    if (getLocalStroage()) {
+      const response = await axios.put(BaseUrl + `likeImages/` + `${id}`, {
+        Like_user: getLocalStroage(),
+        createdAt: Date.now(),
+      });
+      console.log("liker", response.data)
 
-    GetImageData();
+      GetImageData();
+    } else {
+      return true
+    }
+
 
   };
 
 
   useEffect(() => {
+
     const checkLiked = async () => {
       const response2 = await axios.get(BaseUrl + `likedimage/` + `${getLocalStroage()}`)
       let checked = response2?.data?.results
@@ -114,16 +120,16 @@ const findpage = () => {
               sortDate={sortDate}
             />
           </div>
-          <div className="sm:pb-[83px]  getimg-box flex-wrap flex justify-end gap-[23px]   ">
+          <div className="sm:pb-[auto]  getimg-box flex-wrap flex justify-end gap-[23px]   ">
             {getImg && !sortToggle
               ? getImg?.map((items, index) => {
-
+                console.log(items.is_Liked, "items")
 
                 if (isImageFile(items.link_to_image)) {
                   return (
-                    <div>
+                    <div key={index}>
                       <div
-                        key={index}
+                       
                         className="OjImagebox sm:px-[6px] mb-2 relative  p-2  "
                       >
                         <div
@@ -142,19 +148,22 @@ const findpage = () => {
 
                         <div className=" left-[10px] leading-[18px] pt-[10px] absolute bottom-[20px]">
                           <div className="likes_date">
-                            <p
+                            <div
                               onClick={() => LikeImage(items.id, index)}
-                              className={`inline-block pl-2 ${is_Liked.includes(items.id) ? "imageLiked" : "text-gray-400"
+                              className={`inline-block pl-2 ${is_Liked?.items?.is_Liked ? "text-red-500" : "text-gray-400"
                                 }`}
                             >
                               <span
                                 className={`sm:pl-3 cursor-pointer text-[20px] `}
                               >
-                                {" "}
-                                <i className={`fa-solid fa-heart `}></i>
-                                {items.Likes == 0 ? "" : items.Likes}{" "}
+                               
+                                {items.Likes !==0 && items.is_Liked == true  ? (
+                                  <i className={`fa-solid fa-heart`}  style={{color:"red"}}>{items.Likes}</i>
+                                ) : (
+                                  <i className={`fa-solid fa-heart`} >{items.Likes == 0 ? "" : items.Likes}</i> 
+                                )}
                               </span>
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -167,9 +176,9 @@ const findpage = () => {
               : sortdata?.map((items, index) => {
                 if (isImageFile(items.link_to_image)) {
                   return (
-                    <div>
+                    <div key={index}>
                       <div
-                        key={index}
+                        
                         className="OjImagebox sm:px-[6px] mb-2 relative  p-2  "
                       >
                         <div
@@ -186,7 +195,7 @@ const findpage = () => {
 
                         </div>
 
-                        <div className=" left-[10px] leading-[18px] pt-[10px] absolute bottom-[20px]">
+                        {/* <div className=" left-[10px] leading-[18px] pt-[10px] absolute bottom-[20px]">
                           <div className="likes_date">
                             <p
                               onClick={() => LikeImage(items.id, index)}
@@ -202,7 +211,7 @@ const findpage = () => {
                               </span>
                             </p>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   );

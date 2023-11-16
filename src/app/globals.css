@@ -237,7 +237,7 @@
     @apply w-full m-auto sm:p-0 sm:bottom-[40px] sm:flex sm:justify-center  flex  justify-center gap-2 items-center py-2 bg-[#e2e8f0] dark:bg-light-grey fixed bottom-[55px] left-0;
   } */
   .imageLiked{
-    @apply text-red-500
+    @apply text-red-500 ;
   }
   .OjImagebox:hover {
     @apply duration-[400ms] scale-[1.02];
